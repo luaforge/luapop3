@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+<head>
+<title>LuaPOP3 - POP3 Mail Client</title>
+<style type="text/css">
+ul { list-style-type: disc };
+</style>
+</head>
+
+<body bgcolor="#FFFFFF">
+
+<hr>
+
+<center>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr><td align=center>
+<a href="http://www.lua.org">
+<img border=0 alt="LuaPOP3" src="luapop3_128.png">
+</a>
+<tr><td align=center valign=top>POP3 Mail Client</td></tr>
+</table>
+</center>
+
+<p align=center>
+<a href="index.html">home</a> &middot;
+<a href="index.html#whatis">what is</a> &middot;
+<a href="index.html#down">download</a> <!--&middot;
+<a href="manual.html">manual</a> &middot;-->
+<p>
+
+<hr>
+
+<h2><a name=whatis>What is LuaPOP3 ?</a></h2><p>
+
+LuaPOP3 is POP3 client that that can be used to download emails from the mail server. This Library implements most of RFC 1939 commands using the luasocket library.<br><br>
+LuaPOP3 creates the idea of a 'message'. A message is a table with some fields that organize the headers and the body parts, such as text/plain or multipart messages.<br>
+The library defines some functions that make it easy  to create a mail client application such as webmail or a simple command line tool.<br><br>
+The code is completely written in Lua 5.0 and LuaSocket 2.0  and have 2 simple modules. <br>   
+The project has started like academic project of 'Programming in Lua' class at PUC-Rio , Brazil <p>
+
+
+Copyright &copy; 2003 Guilherme Martins, PUC-Rio. All rights reserved. <br>
+
+
+<h2><a name=down>Download</a></h2><p>
+
+The library can be downloaded in source code from the following links: <p>
+
+<i> This distribution has a lua interpreter with luasocket-2.0-alpha compiled together for Win32.</i><br> 
+<a href="luapop3-1.0a.zip">luapop3-1.0a.zip</a> <p>
+
+
+<h2><a name=install>Installation</a></h2><p>
+    Just copy the <code>pop3.lua</code> and <code>message.lua</code> to your prefered
+    library path. Be sure that your Lua global envirioment has a table named "socket" from LuaSocket Library. 
+    <br>
+    <br>
+    <i>NOTE : The LuaPOP3 require LuaSocket 2.0 and was tested with the alpha version.</I>
+
+<h2><a name=test>Tests</a></h2><p>
+    With the distribution you can find a <code>tests.lua</code> file that show how you can use in a simple way.<br>
+    You need to change de host, username , login to try with your mail account.<br>
+    <pre>
+    pop3Client = pop3{
+                    host="pop.yourserver.net",
+		    user="luapop3@server.net",
+		    pass = "luapop"
+                    }
+    </pre>
+    It's possible to give the password in a md5 hash string. For this just add the argument <code>secure=true</code> and change the 'pass' argument to the hash string. 
+    <br>
+    About the Luasocket dependence, you need to use the require function to create a "socket" namespace, <b>but just if you don't use the Lua interpreter that came with the distribution </b> .
+<hr>
+<p align=center>
+<a href="index.html">home</a> &middot;
+<a href="index.html#whatis">what is</a> &middot;
+<a href="index.html#down">download</a> &middot;
+<a href="manual.html">manual</a> &middot;
+<p>
+
+</body>
+</html>
