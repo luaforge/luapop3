@@ -4,7 +4,7 @@
 -- Author: Guilherme Martins
 -- Conforming to: RFC 1939
 -----------------------------------------------------------------------------
-require"message"
+require"pop3.message"
 local socket = require("socket")
 local Public, Private = {}, {}
 
@@ -14,7 +14,7 @@ Private.TIMEOUT = 60
 --- default port for pop3 service.
 Private.PORT = 110
 --Debug option
-Private.DEBUG = false
+Private.DEBUG = true
 
 
 local function debug(...)
