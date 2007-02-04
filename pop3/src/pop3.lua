@@ -186,6 +186,29 @@ function Public:messages()
 
 end
 
+
+-------------
+-- function : messagesTop()
+--
+-- Iterator to all server messages Top, intent to be used like a iterator
+-- 
+-- expects a optional parameter lines ,default = 0
+-- Returns a function the iterate under the server messages
+------------------------
+function Public:messagesTop(lines)
+	local c = 1
+	local total, _ = self:mailinfo()
+	local l = lines or 0
+	
+	return function ()
+			if(c > total) then  return nil end
+			msg = Private.getmessageTop(self.client,c,l)
+			c=c+1
+			return msg 
+		end
+
+end
+
 -------
 -- function : getmessage(num)
 --
@@ -216,6 +239,41 @@ function Private.getmessage(client,num)
 
 end
 
+
+-------
+-- function : getmessageTop(num, lines)
+--
+-- Gets the message Top that has a index 'num' at the maildrop
+-- 
+--
+-- Returns the message Object with complete headers and the body with  a number
+-- of lines indicated at the parameter. By now do not parse multi part messagens in this casa
+-- returns a null body
+-------------------
+function Private.getmessageTop(client,num, lines)
+	
+	-- get message information
+	local code , resp = Private.cmd(client,"LIST",tostring(num))
+	
+	if code == "-ERR" then return nil end
+	
+	_,_,_,sizeStr = string.find(resp,"(.*%s)(.*)")
+	
+	-- Sends the TOP command to the server
+	local code , resp = Private.top(client,num,lines)
+	-- parse the message
+	-- In this case, if multipart, will return a nil body
+	local msg = messages.getParsedMessage(resp);
+	
+	-- set some properties as index id , size and uid
+	msg.id   = num
+	msg.size = tonumber(sizeStr)
+	msg.uid  = Private.uid(client,num) 
+		
+	return msg
+
+end
+
 -------------
 -- function : message(num)
 -- 
@@ -228,6 +286,11 @@ function Public:message(num)
 
 end
 
+function Public:messageTop(num,lines)
+
+	return Private.getmessageTop(self.client,num,lines)
+
+end
 
 -------------------
 -- function : retr(client, num)
@@ -254,6 +317,33 @@ function Private.retr(client,num)
 
 	
 end
+
+-------------------
+-- function : top(client, num, lines)
+--
+-- Gets the message with index equals to 'num'
+--
+-----------------------------------------
+function Private.top(client,num, lines)
+
+	
+	local code, resp = Private.cmd(client,"TOP", {tostring(num), tostring(lines)})
+	if code == "-ERR" then error(resp) end
+	if code == "+OK" then
+		local all = {}
+		--for each line , use a table like a buffer
+		local line = client:receive()
+		while line ~= "." do
+			table.insert(all, line)
+			line = client:receive()	
+		end
+		return nil, all
+	end
+	return code, resp
+
+	
+end
+
 
 ----------------------
 -- function : uid(num)

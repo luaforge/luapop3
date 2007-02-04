@@ -33,7 +33,7 @@ function printbody(a,b)
 		print("---End Text Part --")
 	end
 end
-
+--[[
 for message in pop3Client:messages() do
 		
 	print("***********************************************************************")
@@ -51,6 +51,29 @@ for message in pop3Client:messages() do
 	print("\tDate: " .. tostring(message.header.date))
 	print("\n")
 	table.foreach(message.body,printbody)
+	print("\n")
+	
+	print("####################################")
+end
+]]
+
+for message in pop3Client:messagesTop(4) do
+		
+	print("***********************************************************************")
+	print("Message Id: " ..  message.id) -- Message id (to the pop3 server)
+	print("Message Size: " ..message.size) -- Size in bytes
+	print("Message Unique Id: " ..tostring(message.uid))
+	print("Message Header: " ..tostring(message.header)) -- Table with fields that contain the header values
+	--The header attributes is in lower case
+	print("\tContent-Type: " ..tostring(message.header['content-type'])) 
+	print("\tMime-Version: " ..tostring(message.header['mime-version'])) 
+	print("\tContent-Transfer-Enconding: " .. tostring(message.header['content-transfer-encoding']))
+	print("\tSubject: " .. tostring(message.header.subject))
+	print("\tFrom: " .. tostring(message.header.from))
+	print("\tTo: " .. tostring(message.header.to))
+	print("\tDate: " .. tostring(message.header.date))
+	print("\n")
+	table.foreach(message.body or {"VEIOVAZIO"},printbody)
 	print("\n")
 	
 	print("####################################")
