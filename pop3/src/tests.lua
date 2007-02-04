@@ -4,16 +4,15 @@
 -----------------
 
 require"pop3"
-
-require"socket"
+require"md5"
 
 -----
 --
 --Connection to the server
 ---------
-pop3Client = pop3{  host="pop.yourserver.net",
-					user="luapop3@server.net",
-					pass = "luapop"
+pop3Client = pop3{  host="mail.vbdf.net",
+					user="luapop3@vbdf.net",
+					pass = "luapop123"
 				};
 
 print("Total messages","Total Size")

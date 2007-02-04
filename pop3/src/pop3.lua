@@ -1,11 +1,11 @@
 -----------------------------------------------------------------------------
--- POP3 support for the Lua language.
+-- POP3 support for the Lua language. 
 -- 
 -- Author: Guilherme Martins
 -- Conforming to: RFC 1939
 -----------------------------------------------------------------------------
 require"message"
-
+local socket = require("socket")
 local Public, Private = {}, {}
 
 _G.pop3 = Public
@@ -88,8 +88,6 @@ function Private.getResponse(client)
 		return nil , resp
 	end
 	debug("Return CODE : " , code)
-	client:close()
-	error(resp)
 
 end
 
@@ -116,7 +114,7 @@ function Private.conn(_,conf)
 		pop3Client.client:settimeout(Private.TIMEOUT)
 		
 		-- get the Server Welcome response
-		-- don´t need this
+		-- donï¿½t need this
 		Private.getResponse(pop3Client.client)
 		
 		local code , resp
@@ -292,7 +290,6 @@ end
 ---------------------------------------
 function Public:quit()
 	Private.cmd(self.client,"QUIT")
-	Private.getResponse(self.client)
 	self.client:close()
 end
 
