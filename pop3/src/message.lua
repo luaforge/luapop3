@@ -39,9 +39,13 @@ end
 -- Returns the message
 --------------------------
 function Private.fillProperties(msg,body)
-	
+	local bodyStr
 	-- Creates the message string from the body
-	bodyStr = table.concat(body,"\n");
+	if type(body) == "table" then
+		bodyStr = table.concat(body,"\n");
+	else
+		bodyStr = tostring(body)
+	end
 	msg.all = bodyStr
 	message_s = string.gsub(bodyStr, "^.-\n", "")
    
@@ -71,7 +75,7 @@ end
 --------------------------------------------------------------
 function Private.headers(headers_s)
     local headers = {}
-    headers_s = "\n" .. headers_s .. "$$$:\n"
+    headers_s = "\n" .. tostring(headers_s) .. "$$$:\n"
     local i, j = 1, 1
     local name, value, _
     while 1 do
@@ -104,7 +108,7 @@ function Private.fillMessageParts(msg,body)
  --find the content type from the header property
  local_,_,content,atts = string.find(content,"([%w/]*)%s*;%s*(.*)")
 
- -- if don´t have this attribute, uses text/plain
+ -- if donï¿½t have this attribute, uses text/plain
  content = content or "text/plain"
  atts = atts or "" 
  
